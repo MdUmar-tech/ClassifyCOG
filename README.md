@@ -36,3 +36,38 @@ Note
 This script relies on the results obtained from RPSBLAST against the COG database. Make sure to perform the RPSBLAST search before running the classification script.
 
 For any issues or questions, please feel free to contact maintainer_name.
+
+
+
+################################################### Note on COG Function Assignment ######################################################
+
+Issue Description
+We identified an issue where certain COG IDs present in the cddid.tbl file are not found in the cog-20.def.tab file. This discrepancy can result in missing functional annotations when merging these datasets.
+
+Code Update
+To address this issue, we have updated the ClassifyCOG.py script to ensure that all COG IDs from the top hits are retained in the merged DataFrame, even if they lack corresponding entries in the cog-20.def.tab file. This change is reflected in the assign_COG_function function.
+
+Updated Code Snippet
+In the ClassifyCOG.py script, the merge operation has been modified as follows:
+
+python
+Copy code
+# Perform outer merge (left for all top hits, right for any matching COGs)
+merged_df = pd.merge(selected_top_hit_df, cog_def_df, on='COG', how='left')
+This change ensures that all top hits are included in the merged DataFrame (merged_df), with missing COG functions represented as NaN.
+
+Handling Missing COG Functions
+After making this update, you may notice that the merged_df.csv file contains empty 'Class' columns for some entries. If you encounter this situation and need to assign functions to these COG IDs, you can trace the same COG IDs in the cddid.tbl file.
+
+Steps to Trace Missing COG Functions
+Open the cddid.tbl file and locate the COG ID of interest.
+Note the corresponding gene or functional description provided in the cddid.tbl file.
+Use this information to manually update or annotate the missing COG function in your analysis.
+Example
+If you find an entry in merged_df.csv with an empty 'Class' column:
+
+Locate the COG ID in the cddid.tbl file.
+Refer to the Description column in cddid.tbl to find the relevant functional annotation.
+By following these steps, you can ensure that all COG IDs have appropriate functional annotations, even if they were initially missing from the cog-20.def.tab file.
+
+
