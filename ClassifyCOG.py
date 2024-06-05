@@ -39,13 +39,14 @@ def cddid_to_COG(top_hit_df, cog_description_dict):
     updated_df = top_hit_df.copy()
 
     # Iterate through the DataFrame and replace values in the 'saccver' column
+    # Iterate through the DataFrame and add values to the 'COG' column
     for index, row in updated_df.iterrows():
         # Extract the match number from the 'saccver' column value
         match_number = row['saccver'].split(':')[1]
         # Check if the match number exists in cog_description_dict
         if match_number in cog_description_dict:
-            # Replace the entire 'saccver' column value with the corresponding COG ID
-            updated_df.at[index, 'saccver'] = cog_description_dict[match_number]
+            # Add the corresponding COG ID to the new 'COG' column
+            updated_df.at[index, 'COG'] = cog_description_dict[match_number]
 
     return updated_df
 
@@ -70,11 +71,11 @@ def assign_COG_function(cog_def_filepath, top_hit_df, cddid_table):
                              names=["COG", "Class", "Gene_function", "Gene", "pathway", "unknown", "type"])
 
     # Select relevant columns for clarity and efficiency
-    selected_top_hit_df = top_hit_df[['qaccver', 'saccver']]
+    selected_top_hit_df = top_hit_df[['qaccver', 'saccver', 'COG']]
     #selected_cog_def_df = cog_def_df[['COG', 'Class']]  # Only 'Class' required from COG definitions
 
     # Perform outer merge (left for all top hits, right for any matching COGs)
-    merged_df = pd.merge(selected_top_hit_df, cog_def_df, left_on='saccver', right_on='COG', how='left')
+    merged_df = pd.merge(selected_top_hit_df, cog_def_df, on='COG')
 
     # Extract the selected class for convenience
     selected_class = merged_df['Class']
@@ -165,7 +166,8 @@ def main(args):
     print(f"~ Total COGs used for the query proteins [of {Total_COG_cdd_in_database} overall]: {total_cogs_cdd_used}")
     print(f"~ Total number of assigned functional categories: {total_assigned_functional_categories}")
     print(f"~ Total functional categories used for the query proteins [of {total_functional_categories} overall]: {total_functional_categories}")
-
+    print(f"Classification completed. Results saved to {args.results_directory}")
+    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="COG Classification Script")
     parser.add_argument("-r", "--blast_output_filepath", type=str, required=True, help="Path to the rpsblast result file")
@@ -178,3 +180,6 @@ if __name__ == "__main__":
     main(args)
 
 #python your_script.py -r path_to_blast_output -c path_to_cddid_file -f path_to_fun_file -d path_to_cog_def_file -o path_to_results_directory
+
+#usage 
+#python ClassifyCOG.py -r path_to_blast_output -c path_to_/cddid.tbl -f path_to_/fun-20.tab -d path_to_/cog-20.def.tab -o path_to_results_directory
