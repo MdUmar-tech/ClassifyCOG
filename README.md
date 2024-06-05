@@ -54,7 +54,7 @@ This script relies on the results obtained from RPSBLAST against the COG databas
 For any issues or questions, please feel free to contact arc.umar@gmail.com.
 
 
-################################################# Note on COG Function Assignment  Issue #################################################
+#  Note on COG Function Assignment  Issue #################################################
 
 We identified an issue where certain COG IDs present in the cddid.tbl file are not found in the cog-20.def.tab file. This discrepancy can result in missing functional annotations when merging these datasets.
 
