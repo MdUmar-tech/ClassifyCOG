@@ -135,9 +135,6 @@ def main(args):
 
     # Step 4: Assign COG function to top hit DataFrame
     selected_class, merged_df = assign_COG_function(cog_def_filepath, updated_top_hit_df, cddid_table)
-
-    merged_df = merged_df[['qaccver', 'saccver', 'pident', 'evalue', 'COG', 'Class', 'Gene_function', 'Gene']]
-
     #print(merged_df)
 
     merged_df.to_csv(os.path.join(args.results_directory, "classifier_result.tsv"), sep='\t', index=False)
@@ -148,6 +145,9 @@ def main(args):
     
     # Create results directory if it doesn't exist
     os.makedirs(args.results_directory, exist_ok=True)
+
+    # Save COG 
+    merged_df.to_csv(os.path.join(args.results_directory, "classifier_result.tsv"), sep='\t', index=False)
     
     # Save COG statistics
     cog_stats.to_csv(os.path.join(args.results_directory, "cog_stats.txt"), sep='\t', index=False)
