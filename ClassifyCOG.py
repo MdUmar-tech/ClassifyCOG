@@ -71,7 +71,7 @@ def assign_COG_function(cog_def_filepath, top_hit_df, cddid_table):
                              names=["COG", "Class", "Gene_function", "Gene", "pathway", "unknown", "type"])
 
     # Select relevant columns for clarity and efficiency
-    selected_top_hit_df = top_hit_df[['qaccver', 'saccver', 'COG']]
+    selected_top_hit_df = top_hit_df#[['qaccver', 'saccver', 'COG']]
     #selected_cog_def_df = cog_def_df[['COG', 'Class']]  # Only 'Class' required from COG definitions
 
     # Perform outer merge (left for all top hits, right for any matching COGs)
@@ -135,7 +135,13 @@ def main(args):
 
     # Step 4: Assign COG function to top hit DataFrame
     selected_class, merged_df = assign_COG_function(cog_def_filepath, updated_top_hit_df, cddid_table)
-    
+
+    merged_df = merged_df[['qaccver', 'saccver', 'pident', 'evalue', 'COG', 'Class', 'Gene_function', 'Gene']]
+
+    #print(merged_df)
+
+    merged_df.to_csv(os.path.join(args.results_directory, "classifier_result.tsv"), sep='\t', index=False)
+
     # Compute COG statistics
     cog_stats = merged_df[['COG', 'Gene_function']].value_counts().reset_index(name='frequency')
     print(cog_stats)
