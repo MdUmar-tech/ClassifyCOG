@@ -15,6 +15,10 @@ This command searches the protein sequences in the file protein.faa against the 
 
 Required Files
 Before running the script, you need to download the necessary files from the NCBI FTP server:
+#https://ftp.ncbi.nih.gov/pub/mmdb/cdd/
+#https://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml ->
+#https://www.ncbi.nlm.nih.gov/research/cog-project/
+#https://ftp.ncbi.nlm.nih.gov/pub/COG/COG2020/data/
 
 cddid.tbl: Conserved Domain Database (CDD) identifier file.
 Cog_LE.tar.gz: COG database files.
