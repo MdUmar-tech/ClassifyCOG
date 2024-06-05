@@ -1,4 +1,5 @@
 COG Classification Script
+
 This script is designed to classify protein sequences based on Cluster of Orthologous Groups (COG) identifiers. It utilizes the results obtained from an RPSBLAST search against the COG database to assign COG categories to the input protein sequences.
 
 RPSBLAST
