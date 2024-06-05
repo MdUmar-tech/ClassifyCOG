@@ -185,7 +185,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main(args)
 
-#python your_script.py -r path_to_blast_output -c path_to_cddid_file -f path_to_fun_file -d path_to_cog_def_file -o path_to_results_directory
-
 #usage 
 #python ClassifyCOG.py -r path_to_blast_output -c path_to_/cddid.tbl -f path_to_/fun-20.tab -d path_to_/cog-20.def.tab -o path_to_results_directory
