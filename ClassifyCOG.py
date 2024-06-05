@@ -135,9 +135,9 @@ def main(args):
 
     # Step 4: Assign COG function to top hit DataFrame
     selected_class, merged_df = assign_COG_function(cog_def_filepath, updated_top_hit_df, cddid_table)
-    #print(merged_df)
 
-    merged_df.to_csv(os.path.join(args.results_directory, "classifier_result.tsv"), sep='\t', index=False)
+    merged_df = merged_df[['qaccver', 'saccver', 'pident', 'evalue', 'COG', 'Class', 'Gene_function', 'Gene']]
+    #print(merged_df)
 
     # Compute COG statistics
     cog_stats = merged_df[['COG', 'Gene_function']].value_counts().reset_index(name='frequency')
